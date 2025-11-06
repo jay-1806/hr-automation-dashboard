@@ -1,12 +1,11 @@
 # HR Automation Dashboard 👥
 
-An intelligent HR automation dashboard built with Streamlit, SQLite, and Google Gemini AI. This application enables HR teams to query employee data using natural language and visualize workforce analytics in real-time.
+An intelligent HR automation dashboard built with Python, Streamlit, SQLite, Langchain , API's. This application enables HR teams to query employee data using natural language and visualize workforce analytics in real-time.
 
-🚀 **[Live Demo](https://your-app-name.streamlit.app)** | 📖 [Documentation](#usage-guide)
+🚀 **[Live Demo](https://7n7vfknydcbrhy7nwb6hl8.streamlit.app/)** | 
 
-![Dashboard Preview](https://via.placeholder.com/800x400?text=Add+Your+Screenshot+Here)
+Dashboard Preview <img width="1500" height="736" alt="image" src="https://github.com/user-attachments/assets/831bc542-dd53-42ac-b908-68a608d6cf0e" />
 
-> 💡 **100% FREE to run** - Uses Google Gemini API (free tier with generous limits, no credit card required!)
 
 ## Features ✨
 
@@ -22,7 +21,6 @@ An intelligent HR automation dashboard built with Streamlit, SQLite, and Google 
 - Intelligent response formatting
 - Query history tracking
 - Sample questions for quick access
-- **100% FREE** with generous rate limits (no credit card required!)
 
 ### 3. Advanced Analytics 🔬
 - Interactive filters (department, salary range, tenure)
@@ -41,7 +39,7 @@ An intelligent HR automation dashboard built with Streamlit, SQLite, and Google 
 
 - **Frontend**: Streamlit
 - **Database**: SQLite
-- **AI/ML**: Google Gemini 2.0 Flash (100% FREE, no credit card!)
+- **AI/ML**: Google Gemini 2.0 Flash 
 - **Visualization**: Plotly
 - **Data Processing**: Pandas
 
@@ -93,15 +91,6 @@ pip install -r requirements.txt
 python -m streamlit run app.py
 ```
 
-The application will automatically:
-- Create the SQLite database
-- Generate 50 dummy employee records
-- Populate transfer and feedback data
-- Open in your default browser
-
-## Deploy to Streamlit Community Cloud (100% FREE!) ☁️
-
-**No credit card required. Forever free hosting!**
 
 ### Step 1: Push to GitHub
 ```powershell
@@ -134,15 +123,6 @@ git push -u origin main
 7. Click "Deploy"!
 
 Your app will be live at: `https://YOUR_USERNAME-hr-automation-dashboard.streamlit.app`
-
-**That's it! 🎉 Your app is now live and accessible to anyone!**
-
-### Alternative: Deploy to Hugging Face Spaces (Also FREE!)
-1. Create account at [huggingface.co](https://huggingface.co)
-2. Create new Space with Streamlit template
-3. Upload your files
-4. Add `GEMINI_API_KEY` in Settings → Repository secrets
-5. Your app will be live at: `https://huggingface.co/spaces/YOUR_USERNAME/hr-dashboard`
 
 ## Usage Guide 📖
 
@@ -190,70 +170,6 @@ The AI will:
 - `transfer_date`: Date of transfer
 - `reason`: Transfer reason
 
-### Feedback Table
-- `employee_id`: Reference to employee
-- `feedback_date`: Date of feedback
-- `rating`: 1-5 star rating
-- `feedback_type`: Type of feedback
-- `comments`: Feedback text
-- `reviewer`: Who provided the feedback
-
-## Key Features Explained 🔍
-
-### Modular Code Architecture
-- **db_utils.py**: All database operations isolated for easy testing
-- **ai_utils.py**: LangChain integration separated from UI logic
-- **app.py**: Clean Streamlit UI with minimal business logic
-
-### Well-Commented Code
-Every function includes:
-- Docstrings explaining purpose
-- Parameter descriptions
-- Return value documentation
-- Usage examples where helpful
-
-### Production-Ready Features
-- Environment variable configuration
-- Error handling throughout
-- SQL injection protection via parameterized queries
-- Efficient database connection management
-- Session state management for chat history
-
-### Simulated Metrics
-- Time savings calculation (assumes 7.5 min manual vs 0.5 min AI)
-- Cost savings based on hourly rates
-- Efficiency improvement percentages
-
-## Customization 🎨
-
-### Adding More Departments
-Edit `departments` list in `db_utils.py`
-
-### Adjusting Sample Data
-Modify `_populate_dummy_data()` function in `db_utils.py`
-
-### Changing AI Model
-Update model name in `get_claude_client()` in `ai_utils.py`
-
-### Custom Visualizations
-Add new charts in `render_dashboard()` in `app.py` using Plotly
-
-## Troubleshooting 🔧
-
-### "API Key not configured"
-- Ensure `.env` file exists in project root
-- Verify `GEMINI_API_KEY` is set correctly
-- Get FREE key at: https://aistudio.google.com/app/apikey
-- Restart the Streamlit app after adding the key
-
-### Database errors
-- Delete `hr_peopleops.db` and restart the app
-- Database will be recreated automatically
-
-### Import errors
-- Verify all packages in `requirements.txt` are installed
-- Try: `pip install -r requirements.txt --upgrade`
-
 ## Performance Notes ⚡
 
 - Database uses SQLite (sufficient for demo/small teams)
@@ -293,5 +209,5 @@ Built with:
 ---
 
 **Version**: 1.0.0  
-**Last Updated**: November 2025  
-**Author**: HR Automation Dashboard Team
+**Last Updated**: 1 November 2025  
+**Author**: Jay Vithlani
