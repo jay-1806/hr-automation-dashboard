@@ -41,77 +41,70 @@ def generate_sql_query(user_question):
         client = get_gemini_client()
         schema = get_database_schema()
         
-        # System prompt for SQL generation
-        prompt = f"""You are an expert SQL query generator. Convert the user's question into a valid SQL query.
+        # System prompt for SQL generation - MORE SPECIFIC AND ROBUST
+        prompt = f"""You are a SQL expert. Generate ONLY a valid SQLite SELECT query for this question.
 
-DATABASE SCHEMA:
+DATABASE TABLES:
 {schema}
 
-AVAILABLE TABLES:
-- employees: employee information (id, name, department, position, salary, hire_date, status)
-- transfers: department transfer history
-- feedback: employee feedback and ratings
+IMPORTANT RULES:
+1. Output ONLY the SQL query - nothing else
+2. Use SELECT statements only
+3. For employee queries: JOIN with employees table and use status='Active'
+4. For counts: use COUNT(*) or COUNT(column_name)
+5. For averages: use AVG(column_name) and ROUND to 2 decimals
+6. For listings: SELECT relevant columns and use LIMIT if not specified
+7. Always use proper JOINs when combining tables
+8. For "who" questions: return first_name, last_name, and relevant details
+9. For "how many" questions: use COUNT(*)
+10. For "average" questions: use AVG() and GROUP BY
 
-NOTE: If the question asks about data NOT in the database (like leave/attendance, current location, etc.), respond with exactly: "DATA_NOT_AVAILABLE"
+COMMON PATTERNS:
+- "How many X in Y?" → SELECT COUNT(*) FROM table WHERE condition
+- "Average X by Y?" → SELECT Y, AVG(X) FROM table GROUP BY Y
+- "Top N X" → SELECT columns FROM table ORDER BY column DESC LIMIT N
+- "Who is/are X?" → SELECT first_name, last_name FROM employees WHERE condition
+- "List X" → SELECT columns FROM table WHERE condition LIMIT 20
 
-CRITICAL RULES:
-1. Output ONLY the SQL query - no explanations, no markdown, no extra text
-2. Do not include the word "SQL" or "SQLite" in your output
-3. Use standard SQL syntax compatible with SQLite
-4. Always filter by status = 'Active' when querying employees unless specifically asked for all statuses
-5. Use appropriate JOINs when needed
-6. Return meaningful column aliases (use AS)
-7. For questions about department heads/managers, look for positions containing: Manager, Director, VP, Chief, Head, Lead
+Question: {user_question}
 
-EXAMPLE QUERIES:
-Question: "How many employees are in Engineering?"
-SELECT COUNT(*) as employee_count FROM employees WHERE department = 'Engineering' AND status = 'Active'
+Generate the SQL query:
 
-Question: "What is the average salary by department?"
-SELECT department, ROUND(AVG(salary), 2) as average_salary FROM employees WHERE status = 'Active' GROUP BY department ORDER BY average_salary DESC
-
-Question: "Show me the top 5 highest paid employees"
-SELECT first_name, last_name, department, position, salary FROM employees WHERE status = 'Active' ORDER BY salary DESC LIMIT 5
-
-Question: "Who are the department heads?"
-SELECT department, first_name, last_name, position, salary FROM employees WHERE status = 'Active' AND (position LIKE '%Manager%' OR position LIKE '%Head%' OR position LIKE '%Director%' OR position LIKE '%VP%' OR position LIKE '%Chief%' OR position LIKE '%Lead%') ORDER BY department
-
-USER QUESTION: {user_question}
-
-SQL QUERY:"""
+"""
         
-        response = client.models.generate_content(
-            model='gemini-2.0-flash-exp',  # Fast and free model
-            contents=prompt
-        )
+        # Try to generate the query with retry logic
+        max_retries = 2
+        for attempt in range(max_retries):
+            try:
+                response = client.models.generate_content(
+                    model='gemini-2.0-flash-exp',
+                    contents=prompt,
+                    config={
+                        'temperature': 0.1,  # Low temperature for more deterministic output
+                        'max_output_tokens': 200,
+                    }
+                )
+                
+                sql_query = response.text.strip()
+                
+                # Aggressive cleanup
+                sql_query = sql_query.replace("```sql", "").replace("```", "")
+                sql_query = sql_query.replace("SQL:", "").replace("Query:", "")
+                sql_query = sql_query.strip('"\'` \n\r')
+                
+                # Remove multiline and extra spaces
+                sql_query = ' '.join(sql_query.split())
+                
+                # Validate
+                if sql_query.upper().startswith("SELECT"):
+                    return sql_query, "Query generated successfully"
+                    
+            except Exception as retry_error:
+                if attempt == max_retries - 1:
+                    raise retry_error
+                continue
         
-        sql_query = response.text.strip()
-        
-        # Clean up the query (remove markdown code blocks if present)
-        if sql_query.startswith("```sql"):
-            sql_query = sql_query.replace("```sql", "").replace("```", "").strip()
-        elif sql_query.startswith("```"):
-            sql_query = sql_query.replace("```", "").strip()
-        
-        # Remove any leading/trailing quotes
-        sql_query = sql_query.strip('"\'')
-        
-        # Remove any "SQL QUERY:" prefix if present
-        if sql_query.upper().startswith("SQL QUERY:"):
-            sql_query = sql_query[10:].strip()
-        
-        # Remove any line breaks and extra spaces
-        sql_query = ' '.join(sql_query.split())
-        
-        # Check if data is not available
-        if "DATA_NOT_AVAILABLE" in sql_query.upper():
-            return None, "The requested information is not available in the database. The database only contains: employee information (name, department, position, salary, hire date), transfer history, and feedback/ratings. There is no leave/attendance data available."
-        
-        # Validate that it's a SELECT statement
-        if not sql_query.upper().startswith("SELECT"):
-            return None, f"Generated query must be a SELECT statement. Got: {sql_query[:100]}"
-        
-        return sql_query, "Query generated successfully"
+        return None, "Failed to generate valid SQL query after retries"
         
     except Exception as e:
         return None, f"Error generating SQL query: {str(e)}"
@@ -178,7 +171,7 @@ def answer_hr_question(user_question):
 
 def format_answer(question, results, sql_query):
     """
-    Formats query results into a natural language answer using Gemini.
+    Formats query results into a natural language answer.
     
     Args:
         question (str): Original user question
@@ -188,50 +181,65 @@ def format_answer(question, results, sql_query):
     Returns:
         str: Natural language answer
     """
+    # If no results
+    if not results:
+        return "❌ No data found matching your query."
+    
     try:
+        # For simple single-value results
+        if len(results) == 1 and len(results[0]) == 1:
+            key = list(results[0].keys())[0]
+            value = results[0][key]
+            
+            # Format based on key name
+            if 'count' in key.lower():
+                return f"📊 **Result:** {value} {'employee' if value == 1 else 'employees'}"
+            elif 'salary' in key.lower() or 'avg' in key.lower():
+                return f"💰 **Result:** ${value:,.2f}" if isinstance(value, (int, float)) else f"**Result:** {value}"
+            elif 'rating' in key.lower():
+                return f"⭐ **Result:** {value}"
+            else:
+                return f"**Result:** {value}"
+        
+        # For tabular results - use Gemini for better formatting
         client = get_gemini_client()
+        results_json = json.dumps(results[:20], indent=2, default=str)  # Limit to 20 results
         
-        # If no results, provide appropriate message
-        if not results:
-            return "No results found for your query. The data might not exist in the database or the query returned empty results."
-        
-        # Prepare results for Gemini
-        results_json = json.dumps(results, indent=2, default=str)
-        
-        prompt = f"""You are a helpful HR assistant. You have access to query results from an HR database.
-Your task is to convert these results into clear, natural language answers.
-
-Guidelines:
-1. Be concise but informative
-2. Use proper formatting (bullet points, numbers) when appropriate
-3. Highlight key insights or patterns in the data
-4. If showing numerical data, include context (e.g., "The average salary is $85,000")
-5. For lists of employees, format them nicely
-6. Don't mention SQL or technical details unless relevant
+        prompt = f"""Format this HR data into a clear, natural language answer.
 
 Question: {question}
+Data: {results_json}
 
-Query Results:
-{results_json}
+Rules:
+1. Start with a summary sentence
+2. Use bullet points or numbered lists for clarity
+3. Include relevant details (names, departments, numbers)
+4. Format money as $X,XXX
+5. Keep it professional and concise
+6. If more than 10 items, show top 10 and mention total count
 
-Please provide a clear, natural language answer based on these results."""
+Answer:"""
         
         response = client.models.generate_content(
             model='gemini-2.0-flash-exp',
-            contents=prompt
+            contents=prompt,
+            config={'temperature': 0.3, 'max_output_tokens': 500}
         )
         
         return response.text.strip()
         
     except Exception as e:
-        # Fallback to basic formatting if Gemini fails
-        if len(results) == 1 and len(results[0]) == 1:
-            # Single value result
-            value = list(results[0].values())[0]
-            return f"Result: {value}"
-        else:
-            # Multiple results - basic formatting
-            return f"Found {len(results)} result(s). Data: {str(results[:5])}"
+        # Robust fallback formatting
+        answer = f"📋 **Found {len(results)} result(s):**\n\n"
+        
+        for i, row in enumerate(results[:10], 1):
+            row_text = " | ".join([f"**{k}**: {v}" for k, v in row.items()])
+            answer += f"{i}. {row_text}\n"
+        
+        if len(results) > 10:
+            answer += f"\n_...and {len(results) - 10} more results_"
+        
+        return answer
 
 
 def calculate_time_saved(num_queries):
