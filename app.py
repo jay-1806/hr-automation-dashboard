@@ -110,6 +110,42 @@ st.markdown("""
         color: #1f2937 !important;
     }
     
+    /* IMPORTANT: Markdown lists - ensure visible text and bullets */
+    ul, ol {
+        color: #1f2937 !important;
+    }
+    
+    ul li, ol li {
+        color: #1f2937 !important;
+        margin: 0.5rem 0;
+    }
+    
+    /* Fix bullet point visibility */
+    ul li::marker {
+        color: #667eea !important;
+    }
+    
+    /* Fix numbered list markers */
+    ol li::marker {
+        color: #667eea !important;
+        font-weight: 600;
+    }
+    
+    /* Ensure markdown content in main area is visible */
+    .stMarkdown {
+        color: #1f2937 !important;
+    }
+    
+    .stMarkdown p, .stMarkdown li, .stMarkdown span {
+        color: #1f2937 !important;
+    }
+    
+    /* Ensure emojis are visible (larger size) */
+    .stMarkdown li {
+        font-size: 1rem;
+        line-height: 1.6;
+    }
+    
     /* Chart titles and labels */
     .plot-container text {
         fill: #1f2937 !important;
@@ -184,6 +220,148 @@ st.markdown("""
         font-weight: 600;
     }
     
+    /* ========== DROPDOWN / SELECTBOX STYLING ========== */
+    /* Main selectbox container */
+    [data-testid="stSelectbox"] {
+        background-color: #ffffff !important;
+    }
+    
+    [data-testid="stSelectbox"] > div > div {
+        background-color: #ffffff !important;
+        border: 2px solid #e5e7eb !important;
+        border-radius: 8px !important;
+    }
+    
+    [data-testid="stSelectbox"] > div > div:hover {
+        border-color: #667eea !important;
+    }
+    
+    /* Selectbox text */
+    [data-testid="stSelectbox"] span {
+        color: #1f2937 !important;
+    }
+    
+    /* Dropdown menu when opened - AGGRESSIVE OVERRIDE */
+    [data-baseweb="select"] {
+        background-color: #ffffff !important;
+    }
+    
+    [data-baseweb="select"] > div {
+        background-color: #ffffff !important;
+    }
+    
+    /* The actual dropdown popover/list */
+    [data-baseweb="popover"] {
+        background-color: #ffffff !important;
+        border: 1px solid #e5e7eb !important;
+        border-radius: 8px !important;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+    }
+    
+    [data-baseweb="popover"] > div {
+        background-color: #ffffff !important;
+    }
+    
+    /* Dropdown list container */
+    [data-baseweb="menu"] {
+        background-color: #ffffff !important;
+    }
+    
+    /* FORCE all list items white background */
+    [data-baseweb="menu"] ul {
+        background-color: #ffffff !important;
+    }
+    
+    [data-baseweb="menu"] li,
+    [data-baseweb="menu"] [role="option"],
+    ul[role="listbox"] li,
+    div[role="listbox"] > div {
+        background-color: #ffffff !important;
+        color: #1f2937 !important;
+        padding: 10px 16px !important;
+    }
+    
+    [data-baseweb="menu"] li:hover,
+    [data-baseweb="menu"] [role="option"]:hover,
+    ul[role="listbox"] li:hover {
+        background-color: #e0e7ff !important;
+        color: #667eea !important;
+    }
+    
+    /* Selected option in dropdown */
+    [data-baseweb="menu"] li[aria-selected="true"],
+    [data-baseweb="menu"] [role="option"][aria-selected="true"] {
+        background-color: #667eea !important;
+        color: #ffffff !important;
+    }
+    
+    /* Override dark theme dropdown completely */
+    [data-baseweb="list"] {
+        background-color: #ffffff !important;
+    }
+    
+    [data-baseweb="list-item"] {
+        background-color: #ffffff !important;
+        color: #1f2937 !important;
+    }
+    
+    [data-baseweb="list-item"]:hover {
+        background-color: #e0e7ff !important;
+    }
+    
+    /* Streamlit specific dropdown overrides */
+    .stSelectbox [data-baseweb="select"] [data-baseweb="popover"] {
+        background: #ffffff !important;
+    }
+    
+    /* Force light background on ALL nested elements in dropdown */
+    [data-baseweb="popover"] *,
+    [data-baseweb="menu"] *,
+    [data-baseweb="list"] * {
+        background-color: inherit;
+    }
+    
+    /* Multiselect styling */
+    [data-testid="stMultiSelect"] > div > div {
+        background-color: #ffffff !important;
+        border: 2px solid #e5e7eb !important;
+        border-radius: 8px !important;
+    }
+    
+    [data-testid="stMultiSelect"] span {
+        color: #1f2937 !important;
+    }
+    
+    /* ========== TEXT INPUT STYLING ========== */
+    [data-testid="stTextInput"] input {
+        background-color: #ffffff !important;
+        color: #1f2937 !important;
+        border: 2px solid #e5e7eb !important;
+        border-radius: 8px !important;
+        padding: 0.75rem !important;
+    }
+    
+    [data-testid="stTextInput"] input:focus {
+        border-color: #667eea !important;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2) !important;
+    }
+    
+    [data-testid="stTextInput"] input::placeholder {
+        color: #9ca3af !important;
+    }
+    
+    /* Text area styling */
+    [data-testid="stTextArea"] textarea {
+        background-color: #ffffff !important;
+        color: #1f2937 !important;
+        border: 2px solid #e5e7eb !important;
+        border-radius: 8px !important;
+    }
+    
+    [data-testid="stTextArea"] textarea:focus {
+        border-color: #667eea !important;
+    }
+
     /* Chat messages - User messages */
     [data-testid="stChatMessageContent"] {
         background-color: #f3f4f6 !important;
@@ -211,24 +389,41 @@ st.markdown("""
     /* Chat input - clean and professional */
     [data-testid="stChatInput"] {
         background-color: #ffffff !important;
-        border: 2px solid #667eea;
-        border-radius: 12px;
-        padding: 0.75rem 1rem;
-        box-shadow: 0 2px 8px rgba(102, 126, 234, 0.1);
+        border: 2px solid #667eea !important;
+        border-radius: 12px !important;
+        box-shadow: 0 2px 8px rgba(102, 126, 234, 0.15) !important;
         margin: 1rem 0;
     }
+    
+    [data-testid="stChatInput"] > div {
+        background-color: #ffffff !important;
+    }
+    
     [data-testid="stChatInput"] textarea {
         font-size: 1rem !important;
         color: #1f2937 !important;
         background-color: #ffffff !important;
-        padding: 0.5rem;
+        padding: 0.75rem !important;
+        border: none !important;
     }
+    
     [data-testid="stChatInput"] textarea::placeholder {
-        color: #9ca3af !important;
+        color: #6b7280 !important;
     }
+    
     [data-testid="stChatInput"] input {
         color: #1f2937 !important;
         background-color: #ffffff !important;
+    }
+    
+    /* Chat input bottom bar fix */
+    .stChatInput {
+        background-color: #ffffff !important;
+    }
+    
+    .stChatInput > div {
+        background-color: #ffffff !important;
+        border-radius: 12px !important;
     }
     
     /* Chat input container positioning */
@@ -424,7 +619,7 @@ def render_sidebar():
         # Navigation
         page = st.radio(
             "Navigate to:",
-            ["📊 Dashboard", "🔬 Advanced Analytics", "🤖 AI Assistant", "📋 Data Explorer"],
+            ["📊 Dashboard", "🔬 Advanced Analytics", "🤖 AI Assistant", "📄 Documents (RAG)", "📋 Data Explorer"],
             label_visibility="collapsed"
         )
         
@@ -1364,6 +1559,166 @@ def render_data_explorer():
         st.info("💡 Use the AI Assistant to query specific feedback data")
 
 
+def render_documents():
+    """
+    Renders the document management and RAG interface.
+    """
+    st.markdown('<p class="main-header">📄 Document Knowledge Base</p>', unsafe_allow_html=True)
+    st.markdown('<p class="sub-header">Upload HR documents to enable AI-powered Q&A</p>', unsafe_allow_html=True)
+    st.markdown("---")
+    
+    # Import document processor
+    try:
+        from document_processor import (
+            save_document, 
+            get_all_documents, 
+            delete_document,
+            simple_search,
+            has_uploaded_documents
+        )
+        doc_processor_available = True
+    except ImportError as e:
+        st.error(f"Document processor not available: {e}")
+        doc_processor_available = False
+        return
+    
+    # Create two columns
+    col1, col2 = st.columns([1, 1])
+    
+    with col1:
+        st.subheader("📤 Upload Documents")
+        st.markdown("""
+        <div style="background-color: #f3f4f6; padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+            <p style="color: #374151; margin-bottom: 0.5rem;"><strong>Upload HR documents like:</strong></p>
+            <ul style="color: #1f2937; margin: 0; padding-left: 1.5rem;">
+                <li style="color: #1f2937;">📋 Employee Handbooks</li>
+                <li style="color: #1f2937;">📝 Company Policies</li>
+                <li style="color: #1f2937;">📚 Training Materials</li>
+                <li style="color: #1f2937;">📊 Procedure Guides</li>
+                <li style="color: #1f2937;">💼 Job Descriptions</li>
+            </ul>
+        </div>
+        """, unsafe_allow_html=True)
+        
+        # File uploader
+        uploaded_files = st.file_uploader(
+            "Choose files to upload",
+            type=['txt', 'pdf', 'docx', 'md', 'csv'],
+            accept_multiple_files=True,
+            help="Supported formats: TXT, PDF, DOCX, MD, CSV"
+        )
+        
+        # Category selection
+        category = st.selectbox(
+            "Document Category",
+            ["Policy", "Training", "Procedure", "Handbook", "Other"]
+        )
+        
+        # Upload button
+        if uploaded_files:
+            if st.button("📤 Upload Documents", type="primary"):
+                progress_bar = st.progress(0)
+                status_text = st.empty()
+                
+                for i, file in enumerate(uploaded_files):
+                    status_text.text(f"Processing: {file.name}...")
+                    
+                    # Read file content
+                    content = file.read()
+                    
+                    # Save document
+                    try:
+                        doc_info = save_document(
+                            filename=file.name,
+                            content=content,
+                            metadata={'category': category}
+                        )
+                        st.success(f"✅ Uploaded: {file.name} ({doc_info['chunk_count']} chunks)")
+                    except Exception as e:
+                        st.error(f"❌ Error uploading {file.name}: {e}")
+                    
+                    progress_bar.progress((i + 1) / len(uploaded_files))
+                
+                status_text.text("Upload complete!")
+                st.rerun()
+    
+    with col2:
+        st.subheader("📚 Uploaded Documents")
+        
+        documents = get_all_documents()
+        
+        if not documents:
+            st.info("No documents uploaded yet. Upload some documents to get started!")
+        else:
+            st.markdown(f"**{len(documents)} document(s) in knowledge base**")
+            
+            for doc in documents:
+                with st.expander(f"📄 {doc['filename']}", expanded=False):
+                    st.write(f"**Chunks:** {doc['chunk_count']}")
+                    st.write(f"**Category:** {doc.get('metadata', {}).get('category', 'N/A')}")
+                    
+                    if st.button(f"🗑️ Delete", key=f"del_{doc['id']}"):
+                        if delete_document(doc['id']):
+                            st.success(f"Deleted {doc['filename']}")
+                            st.rerun()
+                        else:
+                            st.error("Failed to delete document")
+    
+    st.markdown("---")
+    
+    # Test search section
+    st.subheader("🔍 Test Document Search")
+    
+    if has_uploaded_documents():
+        test_query = st.text_input(
+            "Enter a test query",
+            placeholder="e.g., What is the vacation policy?"
+        )
+        
+        if test_query:
+            with st.spinner("Searching documents..."):
+                results = simple_search(test_query, top_k=5)
+                
+                if results:
+                    st.success(f"Found {len(results)} relevant chunks")
+                    
+                    for i, result in enumerate(results, 1):
+                        with st.expander(f"Result {i}: {result['doc_name']} (Score: {result['score']:.2f})"):
+                            # Show matched terms if available
+                            if result.get('matches'):
+                                st.caption(f"🎯 Matched: {', '.join(result['matches'][:5])}")
+                            st.write(result['text'][:800] + "..." if len(result['text']) > 800 else result['text'])
+                else:
+                    st.warning("No matching content found. Try different keywords.")
+    else:
+        st.info("Upload documents first to test the search feature.")
+    
+    st.markdown("---")
+    
+    # How to use section
+    with st.expander("ℹ️ How to Use Document Q&A"):
+        st.markdown("""
+        ### Using the Document Knowledge Base
+        
+        1. **Upload Documents**: Add your HR documents (policies, handbooks, procedures)
+        2. **Ask Questions**: Go to the AI Assistant and ask questions about your documents
+        3. **Get Answers**: The AI will search your documents and provide answers with sources
+        
+        ### Example Questions:
+        - "What is the vacation policy?"
+        - "What are the steps for employee onboarding?"
+        - "What is the dress code policy?"
+        - "How do I request time off?"
+        
+        ### Supported File Types:
+        - **TXT** - Plain text files
+        - **PDF** - PDF documents (requires pypdf)
+        - **DOCX** - Word documents (requires python-docx)
+        - **MD** - Markdown files
+        - **CSV** - CSV data files
+        """)
+
+
 def main():
     """
     Main application entry point.
@@ -1381,6 +1736,8 @@ def main():
         render_advanced_analytics()
     elif page == "🤖 AI Assistant":
         render_ai_assistant()
+    elif page == "📄 Documents (RAG)":
+        render_documents()
     elif page == "📋 Data Explorer":
         render_data_explorer()
 

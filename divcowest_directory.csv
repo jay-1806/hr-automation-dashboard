@@ -1,0 +1,226 @@
+department,team,name,title,location
+EXECUTIVE TEAM,Executive Team,Stuart Shiff,Founder & Chief Executive Officer,
+EXECUTIVE TEAM,DivCore,Robert Mashaal,Chief Investment Officer,
+EXECUTIVE TEAM,DivCore,Michael Carp,President & Chief Operating Officer,
+EXECUTIVE LEADERSHIP,Portfolio Management,Benjamin Elder,Managing Director,San Francisco
+EXECUTIVE LEADERSHIP,DivCore,Chad Jones,Head of Eastern Region Investments,Greenwich & New York
+EXECUTIVE LEADERSHIP,Executive,Dave Brandwein,Chief Operating Officer,San Francisco
+EXECUTIVE LEADERSHIP,Asset Management,Gregg Walker,President DivcoWest Real Estate Asset Management,San Francisco
+EXECUTIVE LEADERSHIP,Technology,Harshit Shah,Chief Technology Officer,San Francisco
+EXECUTIVE LEADERSHIP,Capital Strategies,Heather Meyerdirk,"Senior Managing Director, Head of Capital Strategies & Formation",San Francisco
+EXECUTIVE LEADERSHIP,Portfolio Management,Jacob Fiumara,"Senior Managing Director, Head of Portfolio Management",Cambridge
+EXECUTIVE LEADERSHIP,People,Kate Oppenheimer,Chief People Officer,San Francisco
+EXECUTIVE LEADERSHIP,Accounting,Lisa Guerrero,Chief Accounting Officer,San Francisco
+EXECUTIVE LEADERSHIP,Legal,Megan Sherman,General Counsel,San Francisco
+EXECUTIVE LEADERSHIP,Investments,Sam Hamilton,Chief Investment Officer,San Francisco
+EXECUTIVE LEADERSHIP,Marketing,Tina Snyder,"Senior Director, Head of Marketing",Cambridge
+INVESTMENTS,Administrative,Ashleigh Fried,"Executive Assistant, Administrative Team Lead",Los Angeles
+INVESTMENTS,Investments,Bill Chang,"Senior Director, Investments",San Francisco
+INVESTMENTS,Investments,Brad Scott,"Managing Director, Investments",San Francisco
+INVESTMENTS,Venture Investments,Breton Birkhofer,"Managing Director, Venture Investments",San Francisco
+INVESTMENTS,Strategic Investments,Caleb Cragle,"Senior Director, Head of Strategic Investments",San Francisco
+INVESTMENTS,DivCore,Chad Jones,Head of Eastern Region Investments,Greenwich & New York
+INVESTMENTS,Investments,Chase Parisi,"Associate Director, Investments",Cambridge
+INVESTMENTS,Investments,Chris Ponig,"Managing Director, Investments",San Francisco
+INVESTMENTS,Investments,Costa Petrunoff,"Managing Director, Investments",Los Angeles
+INVESTMENTS,Investments,Daniel Cichocki,"Director, Investments",Los Angeles
+INVESTMENTS,Venture Investments,Daniel Stein,"Associate, Venture Investments",San Francisco
+INVESTMENTS,Portfolio Management,Dave Janeczek,"Director, Portfolio Management",Cambridge
+INVESTMENTS,Investments,David Aberman,"Associate, Investments",San Francisco
+INVESTMENTS,Investments,Dennis O'Donnell,"Managing Director, Investments",Cambridge
+INVESTMENTS,Investments,Desiree Hansen,"Associate Director, Investments",San Francisco
+INVESTMENTS,Asset Management,Devon Shiff,"Associate Director, Asset Management",Los Angeles
+INVESTMENTS,Investments,Dylan Brickman,"Associate, Investments",New York
+INVESTMENTS,Acquisitions,Elena Miller,Head of Bay Area and Pacific NW Acquisitions,San Francisco
+INVESTMENTS,Investments,Gauri Deshpande,"Analyst, Investments",San Francisco
+INVESTMENTS,Asset Management,Hudson Maudlin,"Director, Asset Management",Los Angeles
+INVESTMENTS,Investments,Hunter Douglas,"Associate, Investments",Los Angeles
+INVESTMENTS,Acquisitions,Ian Duncan,Head of Texas & Mountain Region Acquisitions,Austin
+INVESTMENTS,Investments,Ian Grohsgal,"Associate, Investments",San Francisco
+INVESTMENTS,Acquisitions,Jackson Hunter,Head of Southeast Acquisitions,Cambridge
+INVESTMENTS,Investments,Jared Crowley,"Senior Director, Investments",Los Angeles
+INVESTMENTS,Investments,Jenny Chen,"Analyst, Investments",Cambridge
+INVESTMENTS,Investments,Joe McKenna,"Senior Director, Investments",Washington DC
+INVESTMENTS,Asset Management,John Schoback,"Senior Director, Asset Management",New York
+INVESTMENTS,Investments,Jonathan Abramowitz,"Associate, Investments",New York
+INVESTMENTS,Asset Management,Joseph Steffano,"Director, Asset Management",Cambridge
+INVESTMENTS,Investments,Kaitlin Kramer,"Associate Director, Investments",Cambridge
+INVESTMENTS,Investments,Kristen Gao,"Associate, Investments",San Francisco
+INVESTMENTS,Investments,Maike Zhang,"Director, Investments",San Francisco
+INVESTMENTS,Investments,Mark Munoz,"Director, Investments",Los Angeles
+INVESTMENTS,Investments,Matias Meier,"Analyst, Investments",San Francisco
+INVESTMENTS,Investments,Max Mashaal,"Analyst, Investments",New York
+INVESTMENTS,Acquisitions,Michael Falvey,Head of Boston Acquisitions,Cambridge
+INVESTMENTS,Investments,Mike Pelletier,"Managing Director, Investments",San Francisco
+INVESTMENTS,Investments,Nico Papageorge,"Senior Director, Investments",Washington DC
+INVESTMENTS,Investments,Olivia Jensen,"Associate, Investments",San Francisco
+INVESTMENTS,Investments,Parrish Alto,"Associate, Investments",San Francisco
+INVESTMENTS,Venture Investments,Phoebe Zhang,"Director, Venture Investments",San Francisco
+INVESTMENTS,Investments,Reid Gordon,"Associate Director, Investments",San Francisco
+INVESTMENTS,Investments,Richie DeBeikes,Head of Residential & Southern California Investments,Los Angeles
+INVESTMENTS,Investments,Sam Hamilton,Chief Investment Officer,San Francisco
+INVESTMENTS,Investments,Shahzaib Chaudhry,"Analyst, Investments",Cambridge
+INVESTMENTS,Investments,Tim Canon,"Director, Investments",Los Angeles
+INVESTMENTS,Investments,Tor Churton,"Associate, Investments",San Francisco
+INVESTMENTS,Sustainability,Virginia Calkins,Head of Sustainability and Asset Operations,San Francisco
+CONSTRUCTION & DEVELOPMENT,Construction,Brittni Liang,Construction Manager,San Francisco
+CONSTRUCTION & DEVELOPMENT,Construction,Cristine Siongco,Construction Manager,San Francisco
+CONSTRUCTION & DEVELOPMENT,Development,John Rappoport,"Director, Development",Cambridge
+CONSTRUCTION & DEVELOPMENT,Development,Mark Johnson,Head of Development,Cambridge
+CONSTRUCTION & DEVELOPMENT,Development,Nicole LaBossiere,"Senior Director, Development",Cambridge
+CONSTRUCTION & DEVELOPMENT,Development,Rob Zaman,Development Manager,Cambridge
+CONSTRUCTION & DEVELOPMENT,Western Region,Seth Bland,"Senior Director, Western Region",San Francisco
+CONSTRUCTION & DEVELOPMENT,Construction,Steve Aberle,Senior Construction Manager,San Francisco
+CONSTRUCTION & DEVELOPMENT,Sustainability,Virginia Calkins,Head of Sustainability and Asset Operations,San Francisco
+CAPITAL FORMATION & PORTFOLIO MGMT,Portfolio Management,Benjamin Elder,"Managing Director, Portfolio Management",San Francisco
+CAPITAL FORMATION & PORTFOLIO MGMT,Executive,Dave Brandwein,Chief Operating Officer,San Francisco
+CAPITAL FORMATION & PORTFOLIO MGMT,Capital Strategies,Hannah Thiry,"Associate, Capital Strategies & Formation",San Francisco
+CAPITAL FORMATION & PORTFOLIO MGMT,Capital Strategies,Heather Meyerdirk,"Senior Managing Director, Head of Capital Strategies & Formation",San Francisco
+CAPITAL FORMATION & PORTFOLIO MGMT,Portfolio Management,Jacob Fiumara,"Senior Managing Director, Head of Portfolio Management",Cambridge
+CAPITAL FORMATION & PORTFOLIO MGMT,Administrative,Kaelana Graham,Executive Assistant,San Francisco
+CAPITAL FORMATION & PORTFOLIO MGMT,Portfolio Management,Kerrie Weis,"Senior Director, Portfolio Management",San Francisco
+CAPITAL FORMATION & PORTFOLIO MGMT,Capital Strategies,Lindsey Sugar,"Managing Director, Capital Strategies & Formation",Los Angeles
+CAPITAL FORMATION & PORTFOLIO MGMT,Capital Strategies,Molly Taylor,"Director, Capital Strategies & Formation",New York
+CAPITAL FORMATION & PORTFOLIO MGMT,Portfolio Management,Ross Fisher,"Director, Portfolio Management",Cambridge
+CAPITAL FORMATION & PORTFOLIO MGMT,Capital Strategies,Sonya Imber,"Director, Capital Strategies & Formation",San Francisco
+PROPERTY MANAGEMENT,Property Management,Adam Nagle,Senior Property Manager,Cambridge
+PROPERTY MANAGEMENT,Property Management,Alex Brunet,Property Manager,San Francisco
+PROPERTY MANAGEMENT,Tenant Services,Alexis Crawford,Tenant Services Coordinator,Cambridge
+PROPERTY MANAGEMENT,Tenant Services,Alexis Quessenberry,Tenant Services Coordinator,San Francisco
+PROPERTY MANAGEMENT,Property Management,Allie O'Mara,Assistant Property Manager,Cambridge
+PROPERTY MANAGEMENT,Operations,Andy Hobbs,Senior Operations Manager,Los Angeles
+PROPERTY MANAGEMENT,Property Management,Bobby Versprille,Property Manager,Washington DC
+PROPERTY MANAGEMENT,Tenant Services,Chris Alvarez,Tenant Services Coordinator,Los Angeles
+PROPERTY MANAGEMENT,Property Management,Claudia Campos,Property Manager,San Jose
+PROPERTY MANAGEMENT,Property Management,Colleen Oczkowski,Property Manager,San Francisco
+PROPERTY MANAGEMENT,Property Management,Colton Harris,Assistant Property Manager,San Jose
+PROPERTY MANAGEMENT,Property Management,Daniel Koehler,General Manager,Cambridge
+PROPERTY MANAGEMENT,Property Management,Danny Gibson,Property Manager,Washington DC
+PROPERTY MANAGEMENT,Property Management,Dustin Gillespie,Senior Property Manager,Menlo Park
+PROPERTY MANAGEMENT,Property Management,Eve Chung,Property Manager,Foster City
+PROPERTY MANAGEMENT,Property Management,Fred Ehlers,Senior Property Manager,Foster City
+PROPERTY MANAGEMENT,Property Management,George Panossian,Property Manager,Los Angeles
+PROPERTY MANAGEMENT,Engineering,Gus Villalpando,Director of Engineering,San Francisco
+PROPERTY MANAGEMENT,Property Management,Helen Tann,"Head of Property Management, Western Region",San Francisco
+PROPERTY MANAGEMENT,Property Management,James McIntyre,Property Manager,Los Angeles
+PROPERTY MANAGEMENT,Property Management,Janet Ng,General Manager,Menlo Park
+PROPERTY MANAGEMENT,Property Management,Jasmine Hansen,Assistant Property Manager,Los Angeles
+PROPERTY MANAGEMENT,Facilities,Jay Christiano,Assistant Facilities Manager,Cambridge
+PROPERTY MANAGEMENT,Tenant Services,Jayden Boris,Tenant Services Coordinator,Cambridge
+PROPERTY MANAGEMENT,Property Management,Jeff Laass,Senior Property Manager,Los Angeles
+PROPERTY MANAGEMENT,Due Diligence,Jim Lesko,Senior Managing Director Physical Due Diligence and Special Projects,Cambridge
+PROPERTY MANAGEMENT,Property Management,Joann Maayeh,Assistant Property Manager,Walnut Creek
+PROPERTY MANAGEMENT,Property Management,Kellyann Mussel,General Manager,Washington DC
+PROPERTY MANAGEMENT,Tenant Services,Mairead Allen,Tenant Services Coordinator,San Francisco
+PROPERTY MANAGEMENT,Property Management,Marisa Dipietro,Property Manager,Cambridge
+PROPERTY MANAGEMENT,Property Management,Mark Milone,"Head of Property Management, Eastern Region",Cambridge
+PROPERTY MANAGEMENT,Property Management,Martha Velez,Associate Director,Menlo Park
+PROPERTY MANAGEMENT,Property Management,Matthew Callahan,Associate Director,Cambridge
+PROPERTY MANAGEMENT,Property Management,Meghan Lewis,Assistant Property Manager,Cambridge
+PROPERTY MANAGEMENT,Administrative,Melissa Ross,Group Coordinator,Cambridge
+PROPERTY MANAGEMENT,Facilities,Michael Deluga,Senior Facilities Manager,Cambridge
+PROPERTY MANAGEMENT,Facilities,Michael Holland,Facilities Coordinator,Cambridge
+PROPERTY MANAGEMENT,Property Management,Misty Weist,Senior Property Manager,Foster City
+PROPERTY MANAGEMENT,Tenant Services,Mohammad Shaiq,Tenant Services Coordinator,Arlington
+PROPERTY MANAGEMENT,Tenant Services,Molly Persons,Tenant Services Coordinator,Cambridge
+PROPERTY MANAGEMENT,Tenant Services,Monica Sibbert,Tenant Services Coordinator,Menlo Park
+PROPERTY MANAGEMENT,Property Management,Nadia Afework,Property Manager,Menlo Park
+PROPERTY MANAGEMENT,Property Management,Naoko Branker,Assistant Property Manager,Washington DC
+PROPERTY MANAGEMENT,Hospitality,Nereyda Melchor,Hospitality & Tenant Coordinator,Menlo Park
+PROPERTY MANAGEMENT,Operations,OJ Sanchez,Senior Operations Manager,New York
+PROPERTY MANAGEMENT,Property Management,Peter Hong,Associate Director,Los Angeles
+PROPERTY MANAGEMENT,Property Management,Samantha Stires,"Director, Property Management",San Francisco
+PROPERTY MANAGEMENT,Property Management,Shashwat Verma,Assistant Property Manager,Menlo Park
+PROPERTY MANAGEMENT,Property Management,Stacy Ballesteros,Senior Property Manager,Walnut Creek
+PROPERTY MANAGEMENT,Property Management,Stephen Popovich,Senior Property Manager,Washington DC
+PROPERTY MANAGEMENT,Tenant Services,Susie Thoeun,Tenant Services Coordinator,Los Angeles
+PROPERTY MANAGEMENT,Property Management,Tatiane Martins,Senior Property Manager,San Jose
+PROPERTY MANAGEMENT,Property Management,Theresa Jen,Senior Property Manager,Menlo Park
+LEASING & MARKETING,Marketing,Ani Mikitarian,"Associate Director, Marketing",Cambridge
+LEASING & MARKETING,Asset Management,Gregg Walker,President DivcoWest Real Estate Asset Management,San Francisco
+LEASING & MARKETING,Marketing,Katie Harper,"Senior Associate, Marketing",San Francisco
+LEASING & MARKETING,Brand Experience,Marina Encinias,"Director, Brand Experience",Menlo Park
+LEASING & MARKETING,Leasing & Marketing,Mark Roopenian,"Managing Director, Leasing & Marketing",Cambridge
+LEASING & MARKETING,Marketing,Michelle Carter,"Director, Marketing",San Francisco
+LEASING & MARKETING,Marketing,Tina Snyder,"Senior Director, Head of Marketing",Cambridge
+FINANCE LEGAL & ADMIN,Human Resources,Aida Moradi,Recruiter,San Francisco
+FINANCE LEGAL & ADMIN,Events,Alicia Villegas,Associate Director of Events and Experiences,San Francisco
+FINANCE LEGAL & ADMIN,Accounting,Alla Pogorelova,Fund Accounting Manager,San Francisco
+FINANCE LEGAL & ADMIN,Leasing,Andrew Hirsch,Lease Administrator,San Francisco
+FINANCE LEGAL & ADMIN,Reporting,Andrina Pearson,"Senior Director, Corporate Reporting",San Francisco
+FINANCE LEGAL & ADMIN,Accounting,Angel Avelar,Staff Accountant,San Francisco
+FINANCE LEGAL & ADMIN,Accounting,Angelika Ryan,Accounting Manager,San Francisco
+FINANCE LEGAL & ADMIN,Applications,Anh Ramos,Senior Applications Analyst,San Francisco
+FINANCE LEGAL & ADMIN,Reporting,Anna Ogarkova,Corporate Reporting Accounting Manager,San Francisco
+FINANCE LEGAL & ADMIN,Accounting,Annie Lei,Senior Property Accountant,San Francisco
+FINANCE LEGAL & ADMIN,Infrastructure,Bhavesh Shah,"Senior Director, Infrastructure & Operations",San Francisco
+FINANCE LEGAL & ADMIN,Administrative,Briana Boehm,Executive Assistant,San Francisco
+FINANCE LEGAL & ADMIN,Analytics,Candice Ke,"Senior Director, Analytics",San Francisco
+FINANCE LEGAL & ADMIN,Accounting,Carla Coates,Fund Controller,San Francisco
+FINANCE LEGAL & ADMIN,Accounting,Celine Rosario,Fund Accountant,San Francisco
+FINANCE LEGAL & ADMIN,Administrative,Charlotte Kallerman,Executive Assistant,San Francisco
+FINANCE LEGAL & ADMIN,Accounting,Chris Chan,Property Accounting Manager,San Francisco
+FINANCE LEGAL & ADMIN,Accounting,Christina Pimentel,Assistant Property Controller,San Francisco
+FINANCE LEGAL & ADMIN,Accounting,Cindy S. Xiang,Accounting Manager,San Francisco
+FINANCE LEGAL & ADMIN,Technology,Craig Arsedo,"Senior Associate, Technology Help Desk",San Francisco
+FINANCE LEGAL & ADMIN,Accounting,Dan Hennigan,Fund Controller,San Francisco
+FINANCE LEGAL & ADMIN,Accounting,Darryl Mishima,Senior Property Accountant,San Francisco
+FINANCE LEGAL & ADMIN,Analytics,David Yip,Senior Recovery Analyst,San Francisco
+FINANCE LEGAL & ADMIN,Technology,Devin Chen,"Senior Associate, Technology Help Desk",Cambridge
+FINANCE LEGAL & ADMIN,People Operations,Elizabeth Neilson,"Associate Director, People Operations",San Francisco
+FINANCE LEGAL & ADMIN,Hospitality,Emily Miller,Hospitality & Administrative Coordinator,New York
+FINANCE LEGAL & ADMIN,Accounting,Erin Singh,"Director, Accounting Operations",San Francisco
+FINANCE LEGAL & ADMIN,Technology,Farooz Alikhan,"Managing Director, Technology",San Francisco
+FINANCE LEGAL & ADMIN,Accounting,Gigi Nguyen,Senior Corporate Accountant,San Francisco
+FINANCE LEGAL & ADMIN,Accounting,Grant Sokolowski,Senior Fund Accountant,San Francisco
+FINANCE LEGAL & ADMIN,Administrative,Hannah Cohn,Group Coordinator,San Francisco
+FINANCE LEGAL & ADMIN,Technology,Harshit Shah,Chief Technology Officer,San Francisco
+FINANCE LEGAL & ADMIN,Accounting,Hilda Fagaragan,Staff Accountant,San Francisco
+FINANCE LEGAL & ADMIN,Financial Planning,Hoa Pham,"Senior Vice President, Financial Planning & Management for GP",San Francisco
+FINANCE LEGAL & ADMIN,Technology,Iain Bagnall,Security Engineer,San Francisco
+FINANCE LEGAL & ADMIN,Accounting,Ian O'Toole,Accounts Payable Associate,San Francisco
+FINANCE LEGAL & ADMIN,Leasing,Irene Chadha,"Assistant Manager, Lease Administration",San Francisco
+FINANCE LEGAL & ADMIN,Accounting,James Macaulay,Fund Controller,San Francisco
+FINANCE LEGAL & ADMIN,Accounting,Jared Miller,Assistant Fund Controller,San Francisco
+FINANCE LEGAL & ADMIN,Legal,Jason Myers,"Director, Real Estate Counsel",Los Angeles
+FINANCE LEGAL & ADMIN,Accounting,Jay Dhillon,Senior Fund Accountant,San Francisco
+FINANCE LEGAL & ADMIN,Accounting,Joel Cabiling,Senior Property Accountant,San Francisco
+FINANCE LEGAL & ADMIN,Administrative,Kallen Beier,Group Coordinator,San Francisco
+FINANCE LEGAL & ADMIN,Accounting,Kanchan Padayachi,Property Accounting Manager,San Francisco
+FINANCE LEGAL & ADMIN,Hospitality,Kat O'Brien,Hospitality & Office Coordinator,San Francisco
+FINANCE LEGAL & ADMIN,People,Kate Oppenheimer,Chief People Officer,San Francisco
+FINANCE LEGAL & ADMIN,Accounting,Kelly Ransom,Senior Cost Analyst,San Francisco
+FINANCE LEGAL & ADMIN,Development,Kevin Verissimo,Development Controller,Cambridge
+FINANCE LEGAL & ADMIN,Accounting,Kim Ng,Accounts Payable Specialist,San Francisco
+FINANCE LEGAL & ADMIN,People Operations,Kimberly Vasquez,People Operations Coordinator,San Francisco
+FINANCE LEGAL & ADMIN,Accounting,Libby Deters,"Manager, Cost Accounting & Analysis",San Francisco
+FINANCE LEGAL & ADMIN,People Operations,Linda Santos,"Associate Director, People Operations",San Francisco
+FINANCE LEGAL & ADMIN,Accounting,Lisa Guerrero,Chief Accounting Officer,San Francisco
+FINANCE LEGAL & ADMIN,Accounting,Lisa Smith,"Manager, Corporate Accounts Payable",San Francisco
+FINANCE LEGAL & ADMIN,Administrative,Maeve Murphy,Administrative & Events Coordinator,Cambridge
+FINANCE LEGAL & ADMIN,Compliance,Marc Sternberg,Chief Compliance Officer,
+FINANCE LEGAL & ADMIN,Accounting,Marsden Ashley,Accounting Manager,Cambridge
+FINANCE LEGAL & ADMIN,Legal,Megan Sherman,General Counsel,San Francisco
+FINANCE LEGAL & ADMIN,Development,Megan Dawe,Senior Development Accountant,Cambridge
+FINANCE LEGAL & ADMIN,Technology,Michael Keenan,"Senior Associate, Technology Help Desk",San Francisco
+FINANCE LEGAL & ADMIN,Analytics,Michael Wong,"Junior Associate, Analytics",San Francisco
+FINANCE LEGAL & ADMIN,Accounting,Michael Sham,Fund Accountant,San Francisco
+FINANCE LEGAL & ADMIN,Accounting,Monica Tse,Senior Controller,San Francisco
+FINANCE LEGAL & ADMIN,Accounting,Nadine Gordenev,Corporate Controller,San Francisco
+FINANCE LEGAL & ADMIN,Treasury,Olga Shpakova,Treasury Analyst,San Francisco
+FINANCE LEGAL & ADMIN,People Operations,Priscilla Mack,"Senior Director, People Operations",San Francisco
+FINANCE LEGAL & ADMIN,Analytics,Qi Chao Zhang,Analytics Engineer,San Francisco
+FINANCE LEGAL & ADMIN,Administrative,Rachael Hannus,Executive Assistant,Cambridge
+FINANCE LEGAL & ADMIN,Technology,Raj Adike,Senior Network Engineer,San Francisco
+FINANCE LEGAL & ADMIN,Accounting,Ravi Singh,Assistant Controller,San Francisco
+FINANCE LEGAL & ADMIN,Accounting,Reed Washburn,Assistant Property Controller,San Francisco
+FINANCE LEGAL & ADMIN,Accounting,Rich Delgado,Property Controller,San Francisco
+FINANCE LEGAL & ADMIN,Accounting,Sarah Hall,Property Controller,San Francisco
+FINANCE LEGAL & ADMIN,Accounting,Sindhuja Kolluru,Corporate Accounting Manager,San Francisco
+FINANCE LEGAL & ADMIN,Accounting,Steffi Espinosa,Fund Accountant,San Francisco
+FINANCE LEGAL & ADMIN,Accounting,Stephanie Chin,Senior Fund Accountant,San Francisco
+FINANCE LEGAL & ADMIN,Accounting,Stephanie Qin,Fund Controller,San Francisco
+FINANCE LEGAL & ADMIN,Accounting,Taylor Leslie,"Senior Associate, Accounts Payable",San Francisco
+FINANCE LEGAL & ADMIN,Administrative,Thea Narten,Executive Assistant,San Francisco
+FINANCE LEGAL & ADMIN,Accounting,Yoni Chiu,Fund Assistant Controller,San Francisco
+FINANCE LEGAL & ADMIN,Accounting,Yubai Ying,Fund Controller,San Francisco

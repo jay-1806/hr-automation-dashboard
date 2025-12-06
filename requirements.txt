@@ -3,3 +3,9 @@ google-genai==1.49.0
 pandas==2.2.3
 plotly==5.24.1
 python-dotenv==1.0.1
+
+# Optional: For PDF document support
+pypdf==5.1.0
+
+# Optional: For Word document support
+python-docx==1.1.2
