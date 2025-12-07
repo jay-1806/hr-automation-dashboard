@@ -23,6 +23,40 @@ except ImportError:
     RAG_AVAILABLE = False
 
 
+def handle_api_error(error):
+    """
+    Handles API errors gracefully, especially rate limits.
+    Returns a user-friendly error message and whether to retry.
+    """
+    error_str = str(error)
+    
+    # Rate limit / quota exhausted
+    if '429' in error_str or 'RESOURCE_EXHAUSTED' in error_str or 'quota' in error_str.lower():
+        return {
+            'is_rate_limit': True,
+            'should_retry': False,
+            'message': """⏳ **API Rate Limit Reached**
+
+The free Gemini API quota has been temporarily exhausted. This is normal for free tier usage.
+
+**Options:**
+1. **Wait a few minutes** - The rate limit resets periodically
+2. **Try again later** - Daily limits reset every 24 hours
+3. **Use a different API key** - Get a new free key at [Google AI Studio](https://aistudio.google.com/app/apikey)
+
+**Tip:** You can still browse employee data and analytics in the other tabs while waiting!
+
+The database and dashboard features work without AI."""
+        }
+    
+    # Other API errors
+    return {
+        'is_rate_limit': False,
+        'should_retry': True,
+        'message': f"API Error: {error_str}"
+    }
+
+
 # HR Knowledge Base for general questions
 HR_KNOWLEDGE_BASE = """
 You are an expert HR assistant with knowledge about:
@@ -215,6 +249,9 @@ SQL Query:"""
                     return sql_query, "Query generated successfully"
                     
             except Exception as retry_error:
+                error_info = handle_api_error(retry_error)
+                if error_info['is_rate_limit']:
+                    return None, error_info['message']
                 if attempt == max_retries - 1:
                     return None, f"Error generating SQL: {str(retry_error)}"
                 time.sleep(1)
@@ -223,7 +260,8 @@ SQL Query:"""
         return None, "Failed to generate valid SQL query"
         
     except Exception as e:
-        return None, f"Error: {str(e)}"
+        error_info = handle_api_error(e)
+        return None, error_info['message']
 
 
 def answer_general_question(user_question):
@@ -256,12 +294,14 @@ Provide a helpful, concise answer:"""
         }
         
     except Exception as e:
+        error_info = handle_api_error(e)
         return {
             'status': 'error',
-            'answer': f"Error answering question: {str(e)}",
+            'answer': error_info['message'],
             'sql_query': None,
             'results': None,
-            'type': 'general'
+            'type': 'general',
+            'is_rate_limit': error_info.get('is_rate_limit', False)
         }
 
 
@@ -338,12 +378,14 @@ Answer based on the documents:"""
         }
         
     except Exception as e:
+        error_info = handle_api_error(e)
         return {
             'status': 'error',
-            'answer': f"Error searching documents: {str(e)}",
+            'answer': error_info['message'],
             'sql_query': None,
             'results': None,
-            'type': 'document'
+            'type': 'document',
+            'is_rate_limit': error_info.get('is_rate_limit', False)
         }
 
 
