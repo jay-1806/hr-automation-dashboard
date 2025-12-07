@@ -95,6 +95,9 @@ You are an expert HR assistant with knowledge about:
    - Probation: New hire evaluation period
 """
 
+# Models to try in order of preference (fallback if one is rate-limited)
+GEMINI_MODELS = ['gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-2.0-flash-lite']
+
 
 def get_gemini_client():
     """
@@ -105,6 +108,32 @@ def get_gemini_client():
         raise ValueError("GEMINI_API_KEY or GOOGLE_API_KEY environment variable is not set.")
     
     return genai.Client(api_key=api_key)
+
+
+def call_gemini_with_fallback(client, prompt):
+    """
+    Calls Gemini API with automatic model fallback if rate limited.
+    """
+    last_error = None
+    for model_name in GEMINI_MODELS:
+        try:
+            response = client.models.generate_content(
+                model=model_name,
+                contents=prompt
+            )
+            return response
+        except Exception as e:
+            error_str = str(e)
+            if '429' in error_str or 'RESOURCE_EXHAUSTED' in error_str or 'quota' in error_str.lower():
+                last_error = e
+                continue  # Try next model
+            else:
+                raise e  # Non-rate-limit error, raise it
+    
+    # All models failed with rate limit
+    if last_error:
+        raise last_error
+    raise Exception("All Gemini models are unavailable")
 
 
 def classify_question(user_question):
@@ -224,10 +253,7 @@ SQL Query:"""
         max_retries = 3
         for attempt in range(max_retries):
             try:
-                response = client.models.generate_content(
-                    model='gemini-2.0-flash',
-                    contents=prompt
-                )
+                response = call_gemini_with_fallback(client, prompt)
                 
                 sql_query = response.text.strip()
                 
@@ -280,10 +306,7 @@ Question: {user_question}
 
 Provide a helpful, concise answer:"""
         
-        response = client.models.generate_content(
-            model='gemini-2.0-flash',
-            contents=prompt
-        )
+        response = call_gemini_with_fallback(client, prompt)
         
         return {
             'status': 'success',
@@ -355,10 +378,7 @@ Question: {user_question}
 
 Answer based on the documents:"""
         
-        response = client.models.generate_content(
-            model='gemini-2.0-flash',
-            contents=prompt
-        )
+        response = call_gemini_with_fallback(client, prompt)
         
         # Get source documents
         search_results = simple_search(user_question, top_k=3)
@@ -524,10 +544,7 @@ Rules:
 
 Answer:"""
         
-        response = client.models.generate_content(
-            model='gemini-2.0-flash',
-            contents=prompt
-        )
+        response = call_gemini_with_fallback(client, prompt)
         
         return response.text.strip()
         
