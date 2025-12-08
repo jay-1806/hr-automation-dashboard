@@ -2,7 +2,7 @@
 
 An intelligent HR automation dashboard built with **Streamlit, SQLite, and Google Gemini AI**. This application enables HR teams to query employee data using natural language and visualize workforce analytics with 10+ interactive chart types.
 
-🚀 **[Live Demo](https://7n7vfknydcbrhy7nwb6hl8.streamlit.app/)** | 💡 **100% FREE to run** - No credit card required! 
+🚀 **[Live Demo](https://hrdashboarddivcowest.streamlit.app/)** | 💡 **100% FREE to run** - No credit card required! 
 
 ## 📸 Dashboard Preview
 <img width="1500" height="736" alt="HR Dashboard" src="https://github.com/user-attachments/assets/831bc542-dd53-42ac-b908-68a608d6cf0e" />
