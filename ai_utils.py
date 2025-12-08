@@ -1,13 +1,15 @@
 """
 AI Utilities Module - Google Gemini Version (FREE TIER AVAILABLE)
 Handles Google Gemini integration for natural language HR queries
-Enhanced with robust error handling, general question support, and RAG
+Enhanced with robust error handling, general question support, RAG, and Security Guardrails
 """
 
 import os
 import re
 import time
 import json
+import hashlib
+from datetime import datetime
 from google import genai
 from db_utils import get_database_schema, execute_query
 
@@ -21,6 +23,284 @@ try:
     RAG_AVAILABLE = True
 except ImportError:
     RAG_AVAILABLE = False
+
+
+# ============================================================================
+# SECURITY GUARDRAILS & PII PROTECTION FOR HR DATA
+# ============================================================================
+
+class HRSecurityGuardrails:
+    """
+    Security guardrails specifically designed for HR data protection.
+    Implements PII detection, input sanitization, and query filtering.
+    """
+    
+    # Blocked query patterns - prevent harmful or inappropriate queries
+    BLOCKED_PATTERNS = [
+        # SQL Injection attempts
+        r";\s*DROP\s+TABLE",
+        r";\s*DELETE\s+FROM",
+        r";\s*UPDATE\s+.*\s+SET",
+        r";\s*INSERT\s+INTO",
+        r"UNION\s+SELECT",
+        r"--\s*$",
+        r"/\*.*\*/",
+        
+        # Prompt injection attempts
+        r"ignore\s+(previous|above|all)\s+instructions",
+        r"disregard\s+(previous|above|all)",
+        r"forget\s+(everything|all|previous)",
+        r"new\s+instructions:",
+        r"system\s*prompt",
+        r"you\s+are\s+now",
+        r"act\s+as\s+if",
+        r"pretend\s+(to\s+be|you\s+are)",
+        
+        # Data exfiltration attempts
+        r"export\s+all\s+(data|employees|salaries)",
+        r"dump\s+(database|all|everything)",
+        r"download\s+all",
+        r"send\s+(to|via)\s+email",
+        r"copy\s+to\s+external",
+    ]
+    
+    # Sensitive HR topics requiring extra caution
+    SENSITIVE_TOPICS = [
+        "termination reason",
+        "disciplinary",
+        "harassment",
+        "discrimination", 
+        "medical condition",
+        "disability",
+        "mental health",
+        "pregnancy",
+        "religion",
+        "political",
+        "union",
+        "lawsuit",
+        "legal action",
+        "investigation",
+        "complaint",
+        "grievance",
+    ]
+    
+    # PII patterns to detect and protect
+    PII_PATTERNS = {
+        'ssn': r'\b\d{3}-\d{2}-\d{4}\b',
+        'ssn_no_dash': r'\b\d{9}\b',
+        'phone': r'\b\d{3}[-.]?\d{3}[-.]?\d{4}\b',
+        'email': r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b',
+        'credit_card': r'\b\d{4}[-\s]?\d{4}[-\s]?\d{4}[-\s]?\d{4}\b',
+        'bank_account': r'\b\d{8,17}\b',
+        'passport': r'\b[A-Z]{1,2}\d{6,9}\b',
+        'dob_format': r'\b\d{1,2}[/-]\d{1,2}[/-]\d{2,4}\b',
+        'address_zip': r'\b\d{5}(-\d{4})?\b',
+    }
+    
+    # Allowed HR query intents
+    ALLOWED_INTENTS = [
+        "employee lookup",
+        "department statistics",
+        "headcount",
+        "salary analysis",
+        "transfer history",
+        "feedback summary",
+        "performance metrics",
+        "hiring trends",
+        "turnover analysis",
+        "org structure",
+        "team composition",
+        "location distribution",
+    ]
+    
+    @classmethod
+    def sanitize_input(cls, user_input):
+        """
+        Sanitize user input to prevent injection attacks.
+        Returns sanitized input or None if blocked.
+        """
+        if not user_input or not isinstance(user_input, str):
+            return None, "Invalid input provided."
+        
+        # Trim and normalize whitespace
+        sanitized = ' '.join(user_input.strip().split())
+        
+        # Check length limits (prevent DoS)
+        if len(sanitized) > 1000:
+            return None, "⚠️ Query too long. Please keep questions under 1000 characters."
+        
+        if len(sanitized) < 3:
+            return None, "⚠️ Query too short. Please provide a more detailed question."
+        
+        # Check for blocked patterns
+        input_lower = sanitized.lower()
+        for pattern in cls.BLOCKED_PATTERNS:
+            if re.search(pattern, input_lower, re.IGNORECASE):
+                cls._log_security_event("BLOCKED_QUERY", sanitized[:100])
+                return None, "🚫 **Security Notice:** This query type is not permitted for security reasons."
+        
+        return sanitized, None
+    
+    @classmethod
+    def check_sensitive_topic(cls, query):
+        """
+        Check if query involves sensitive HR topics requiring extra caution.
+        Returns (is_sensitive, topic_matched)
+        """
+        query_lower = query.lower()
+        for topic in cls.SENSITIVE_TOPICS:
+            if topic in query_lower:
+                return True, topic
+        return False, None
+    
+    @classmethod
+    def mask_pii_in_output(cls, text):
+        """
+        Mask any PII that might appear in AI output.
+        """
+        if not text:
+            return text
+        
+        masked = text
+        
+        # Mask SSN
+        masked = re.sub(cls.PII_PATTERNS['ssn'], '[SSN REDACTED]', masked)
+        
+        # Mask phone numbers (but be careful not to mask employee IDs)
+        # Only mask if it looks like a phone format
+        masked = re.sub(r'\b\d{3}[-.]?\d{3}[-.]?\d{4}\b(?!\s*(employees?|id|#))', '[PHONE REDACTED]', masked, flags=re.IGNORECASE)
+        
+        # Mask credit card numbers
+        masked = re.sub(cls.PII_PATTERNS['credit_card'], '[CARD REDACTED]', masked)
+        
+        return masked
+    
+    @classmethod
+    def validate_sql_query(cls, sql_query):
+        """
+        Validate generated SQL query for safety.
+        Returns (is_safe, reason)
+        """
+        if not sql_query:
+            return False, "Empty query"
+        
+        sql_upper = sql_query.upper().strip()
+        
+        # Must be a SELECT query only
+        if not sql_upper.startswith('SELECT'):
+            return False, "Only SELECT queries are permitted"
+        
+        # Block dangerous operations that might be injected
+        dangerous_keywords = ['DROP', 'DELETE', 'UPDATE', 'INSERT', 'ALTER', 'CREATE', 'TRUNCATE', 'EXEC', 'EXECUTE']
+        for keyword in dangerous_keywords:
+            if keyword in sql_upper:
+                cls._log_security_event("DANGEROUS_SQL", sql_query[:200])
+                return False, f"Query contains forbidden operation: {keyword}"
+        
+        # Limit result size to prevent data exfiltration
+        if 'LIMIT' not in sql_upper:
+            sql_query = sql_query.rstrip(';') + ' LIMIT 100'
+        
+        return True, sql_query
+    
+    @classmethod
+    def get_sensitive_topic_disclaimer(cls, topic):
+        """
+        Get appropriate disclaimer for sensitive topics.
+        """
+        disclaimers = {
+            "termination": "⚠️ **Confidentiality Notice:** Termination details are sensitive. Please ensure you have appropriate authorization to access this information.",
+            "disciplinary": "⚠️ **HR Confidential:** Disciplinary records require manager or HR authorization. Information shared here should be treated confidentially.",
+            "harassment": "⚠️ **Sensitive Matter:** Harassment-related queries involve protected information. Please consult HR leadership directly for case-specific details.",
+            "discrimination": "⚠️ **Legal Sensitivity:** Discrimination matters may have legal implications. Please work with Legal and HR for specific cases.",
+            "medical": "⚠️ **HIPAA Notice:** Medical information is protected under privacy laws. Only authorized personnel should access health-related data.",
+            "disability": "⚠️ **ADA Protected:** Disability information is protected. Ensure compliance with ADA requirements when handling this data.",
+            "investigation": "⚠️ **Confidential Investigation:** Investigation details are strictly confidential. Do not share outside authorized personnel.",
+        }
+        
+        for key, disclaimer in disclaimers.items():
+            if key in topic.lower():
+                return disclaimer
+        
+        return "⚠️ **Sensitive Information:** This query involves confidential HR data. Please handle with appropriate care and authorization."
+    
+    @classmethod
+    def _log_security_event(cls, event_type, details):
+        """
+        Log security events for audit trail.
+        In production, this would write to a secure audit log.
+        """
+        timestamp = datetime.now().isoformat()
+        # Hash the details for privacy in logs
+        details_hash = hashlib.sha256(details.encode()).hexdigest()[:16]
+        
+        log_entry = {
+            "timestamp": timestamp,
+            "event_type": event_type,
+            "details_hash": details_hash,
+        }
+        
+        # In production: write to secure audit log
+        # For now, we'll just track it (could be enhanced to write to file/database)
+        print(f"[SECURITY AUDIT] {event_type}: {timestamp}")
+    
+    @classmethod
+    def get_hr_system_prompt(cls):
+        """
+        Get the system prompt with built-in guardrails for HR context.
+        """
+        return """You are a professional HR Assistant with strict privacy and security guidelines.
+
+CRITICAL RULES YOU MUST FOLLOW:
+1. **Data Privacy:** Never reveal full SSNs, bank accounts, or passwords. Always mask sensitive identifiers.
+2. **Need-to-Know Basis:** Only provide information relevant to the specific HR query asked.
+3. **No Speculation:** Do not speculate about employee performance, behavior, or personal matters.
+4. **Professional Tone:** Maintain a professional, neutral tone. Avoid personal opinions.
+5. **Confidentiality:** Remind users about confidentiality when discussing sensitive topics.
+6. **No External Sharing:** Never suggest emailing, exporting, or sharing data externally.
+7. **Audit Awareness:** Be aware that all queries may be logged for compliance purposes.
+8. **Legal Boundaries:** Do not provide legal advice. Recommend consulting Legal/HR for complex matters.
+9. **Factual Only:** Only state facts from the database. Do not make assumptions about employees.
+10. **Salary Discretion:** When discussing salaries, focus on aggregates/ranges unless specifically asked about individuals with proper context.
+
+If asked to do anything that violates these rules, politely decline and explain why."""
+
+
+def apply_input_guardrails(user_question):
+    """
+    Apply all input guardrails before processing a query.
+    Returns (sanitized_input, error_message, is_sensitive, sensitivity_warning)
+    """
+    # Sanitize input
+    sanitized, error = HRSecurityGuardrails.sanitize_input(user_question)
+    if error:
+        return None, error, False, None
+    
+    # Check for sensitive topics
+    is_sensitive, topic = HRSecurityGuardrails.check_sensitive_topic(sanitized)
+    sensitivity_warning = None
+    if is_sensitive:
+        sensitivity_warning = HRSecurityGuardrails.get_sensitive_topic_disclaimer(topic)
+    
+    return sanitized, None, is_sensitive, sensitivity_warning
+
+
+def apply_output_guardrails(response_text):
+    """
+    Apply all output guardrails to AI responses.
+    """
+    if not response_text:
+        return response_text
+    
+    # Mask any PII in output
+    masked = HRSecurityGuardrails.mask_pii_in_output(response_text)
+    
+    return masked
+
+
+# ============================================================================
+# END SECURITY GUARDRAILS
+# ============================================================================
 
 
 def handle_api_error(error):
@@ -413,25 +693,68 @@ def answer_hr_question(user_question):
     """
     Processes a natural language HR question and returns a formatted answer.
     Automatically detects if it's a database query, document search, or general question.
+    Includes security guardrails and PII protection.
     """
     try:
+        # ===== SECURITY: Apply input guardrails =====
+        sanitized_question, error_msg, is_sensitive, sensitivity_warning = apply_input_guardrails(user_question)
+        
+        if error_msg:
+            return {
+                'status': 'error',
+                'answer': error_msg,
+                'sql_query': None,
+                'results': None,
+                'blocked': True
+            }
+        
+        # Use sanitized question from here
+        user_question = sanitized_question
+        
         # Step 0: Classify the question
         question_type = classify_question(user_question)
         
         # Handle document-based questions (RAG)
         if question_type == 'document':
-            return answer_document_question(user_question)
+            result = answer_document_question(user_question)
+            # Apply output guardrails
+            if result.get('answer'):
+                result['answer'] = apply_output_guardrails(result['answer'])
+            if sensitivity_warning:
+                result['answer'] = sensitivity_warning + "\n\n" + result.get('answer', '')
+            return result
         
         # Handle general questions without database
         if question_type == 'general':
-            return answer_general_question(user_question)
+            result = answer_general_question(user_question)
+            # Apply output guardrails
+            if result.get('answer'):
+                result['answer'] = apply_output_guardrails(result['answer'])
+            if sensitivity_warning:
+                result['answer'] = sensitivity_warning + "\n\n" + result.get('answer', '')
+            return result
         
         # Step 1: Generate SQL query
         sql_query, message = generate_sql_query(user_question)
         
         if sql_query is None:
             # Fall back to general answer if SQL generation fails
-            return answer_general_question(user_question)
+            result = answer_general_question(user_question)
+            if result.get('answer'):
+                result['answer'] = apply_output_guardrails(result['answer'])
+            return result
+        
+        # ===== SECURITY: Validate SQL query =====
+        is_safe, sql_result = HRSecurityGuardrails.validate_sql_query(sql_query)
+        if not is_safe:
+            return {
+                'status': 'error',
+                'answer': f"🚫 **Security Notice:** Query validation failed. {sql_result}",
+                'sql_query': sql_query,
+                'results': None,
+                'blocked': True
+            }
+        sql_query = sql_result  # Use potentially modified (LIMIT added) query
         
         # Step 2: Execute the query with error recovery
         try:
@@ -472,6 +795,13 @@ def answer_hr_question(user_question):
             }
         
         answer = format_answer(user_question, results_list, sql_query)
+        
+        # ===== SECURITY: Apply output guardrails =====
+        answer = apply_output_guardrails(answer)
+        
+        # Add sensitivity warning if applicable
+        if sensitivity_warning:
+            answer = sensitivity_warning + "\n\n" + answer
         
         return {
             'status': 'success',
